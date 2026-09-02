@@ -1,41 +1,100 @@
 name: 08 - Runners
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
 
 jobs:
   linux-job:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Inspect the Linux runner
+      - name: Inspect Linux Runner
         run: |
-          echo "===== RUNNER INFO ====="
+          echo "================================"
+          echo "        RUNNER INFORMATION"
+          echo "================================"
+
           echo "OS       : $RUNNER_OS"
           echo "Arch     : $RUNNER_ARCH"
           echo "Home     : $HOME"
           echo "Temp dir : $RUNNER_TEMP"
-          date
+          echo "Hostname : $(hostname)"
+          echo "Date     : $(date)"
 
           echo ""
-          echo "===== CPU INFO ====="
+          echo "================================"
+          echo "        CPU INFORMATION"
+          echo "================================"
+
           lscpu
 
           echo ""
-          echo "===== CPU CORE COUNT ====="
+          echo "CPU Cores:"
           nproc
 
           echo ""
-          echo "===== CPU USAGE ====="
+          echo "================================"
+          echo "        CPU / PROCESS USAGE"
+          echo "================================"
+
           top -bn1 | head -20
 
           echo ""
-          echo "===== TOP CPU PROCESSES ====="
+          echo "Top 10 CPU consuming processes:"
           ps aux --sort=-%cpu | head -10
 
           echo ""
-          echo "===== MEMORY ====="
+          echo "================================"
+          echo "        MEMORY INFORMATION"
+          echo "================================"
+
           free -h
 
           echo ""
-          echo "===== DISK ====="
+          echo "================================"
+          echo "        DISK INFORMATION"
+          echo "================================"
+
           df -h
+
+          echo ""
+          echo "================================"
+          echo "        NETWORK INFORMATION"
+          echo "================================"
+
+          echo "Hostname:"
+          hostname
+
+          echo ""
+          echo "Network Interfaces:"
+          ip addr
+
+          echo ""
+          echo "Network Interface Status:"
+          ip link
+
+          echo ""
+          echo "Routing Table:"
+          ip route
+
+          echo ""
+          echo "DNS Configuration:"
+          cat /etc/resolv.conf
+
+          echo ""
+          echo "Listening Ports:"
+          ss -tuln
+
+          echo ""
+          echo "Current Network Connections:"
+          ss -tun
+
+          echo ""
+          echo "Public IP:"
+          curl -s https://api.ipify.org
+          echo
+
+          echo ""
+          echo "================================"
+          echo "        INSPECTION COMPLETE"
+          echo "================================"
