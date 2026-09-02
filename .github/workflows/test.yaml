@@ -13,4 +13,5 @@ jobs:
           echo "Home     : $HOME"
           echo "Temp dir : $RUNNER_TEMP"
           date
+          htop
 
