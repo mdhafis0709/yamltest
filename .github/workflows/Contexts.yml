@@ -24,7 +24,7 @@ jobs:
           echo "Runner arch : ${{ runner.arch }}"
 
       # Dump the ENTIRE github context as JSON — great for debugging/learning
-      - name: Dump full github context
+      - name: Dump full runner context
         env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
+          GITHUB_CONTEXT: ${{ toJSON(runner) }}
         run: echo "$GITHUB_CONTEXT"
