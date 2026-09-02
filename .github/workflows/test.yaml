@@ -1,36 +1,27 @@
-name: 14 - Secrets
+name: 08 - Runners
 
 on: workflow_dispatch
 
 jobs:
-  job1:
-    runs-on: ubuntu-latest
+  linux-job:
+    runs-on: ubuntu-latest      # most common + fastest + cheapest
     steps:
-      - name: Confirm the secret is present (without printing it)
-        env:
-          API_KEY: ${{ secrets.MY_API_KEY }}
+      - name: Inspect the Linux runner
         run: |
-          if [ -z "$API_KEY" ]; then
-            echo "❌ Secret MY_API_KEY is not set. Add it in repo settings."
-            exit 1
-          fi
-          echo "✅ Secret is available. Length is ${#API_KEY} characters."
-          echo "Even if I try to print it, GitHub masks it: $API_KEY"
+          echo "OS       : $RUNNER_OS"          # -> Linux
+          echo "Arch     : $RUNNER_ARCH"        # -> X64
+          echo "Home     : $HOME"
+          echo "Temp dir : $RUNNER_TEMP"
 
-      - name: Realistic usage — pass a secret to a command
-        env:
-          API_KEY: ${{ secrets.MY_API_KEY }}
+  windows-job:
+    runs-on: windows-latest     # PowerShell is the default shell here
+    steps:
+      - name: Inspect the Windows runner
         run: |
-          # e.g. curl -H "Authorization: Bearer $API_KEY" https://api.example.com
-          echo "Would call an API using the secret from the environment."
+          Write-Host "OS is $env:RUNNER_OS"     # -> Windows
 
-      - name: Confirm the variable is present
-        env:
-          CHANNEL_NAME: ${{ vars.YOUTUBE }}
-        run: |
-          if [ -z "$CHANNEL_NAME" ]; then
-            echo "❌ Variable YOUTUBE is not set. Add it in repo settings."
-            exit 1
-          fi
-          echo "✅ Variable is available. Length is ${#CHANNEL_NAME} characters."
-          echo "Even if I try to print it, since it is a variable GitHub prints it: $CHANNEL_NAME"
+  macos-job:
+    runs-on: macos-latest       # needed for iOS/macOS builds (uses more minutes)
+    steps:
+      - name: Inspect the macOS runner
+        run: echo "OS is $RUNNER_OS"            # -> macOS
